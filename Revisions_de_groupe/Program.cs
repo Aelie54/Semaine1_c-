@@ -1,94 +1,105 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Z_Revisions_de_groupe
+namespace Z_Revisions_Maison
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            var amelie = new Personne { Nom = "KLEIN", Prenom = "Amélie" };
+            var mamaison = new House(55.5M);
+            mamaison.Display();
 
-            Console.WriteLine(amelie.Nom);
-            amelie.Sayhello();
-            amelie.DitBjr(amelie);
+            mamaison.Surface = 60; /// setter !
 
-            amelie.setAge(32);
+            var porte = new Door("porte", "red");
+            mamaison.door = porte;
+            Console.WriteLine("ACCES PORTE PAR MAISON : Ma porte {0} est de couleur {1}", mamaison.door.name, mamaison.door.Color);
 
-            var adrien = new Student { Nom = "Nom", Prenom = "Adrien" };
-            adrien.setAge(31);
-            adrien.GotoSchool();
+            var porte2 = new Door("porte2", "blue");
+            mamaison.door = porte2;
+            Console.WriteLine("ACCES PORTE PAR MAISON : Ma porte {0} est de couleur {1}", mamaison.door.name, mamaison.door.Color);
 
-            var khaoula = new Teacher { Nom = "Nom", Prenom = "Khaoula" };
-            khaoula.GetSubject("maths");
-            khaoula.ExplainSubject();
+            var monappart = new Appart();
+            monappart.Display();
+            monappart.Surface = 100;
+            monappart.Display();
+
+            var porte3 = new Door("porte3", "violet");
+            monappart.door = porte3;
+            Console.WriteLine("ACCES PORTE PAR APPART : Ma porte {0} est de couleur {1}", monappart.door.name, monappart.door.Color);
 
             Console.ReadLine();
         }
+
     }
 
-    public class Personne
+
+    public class House
     {
-        public string Nom;
-        public string Prenom;
-        protected int Age;
+        protected decimal surface;
+        public Door door;
 
-        internal void DitBjr(Personne param)
+        public House(decimal s)
         {
-            Console.WriteLine("Bonjour {0}", param.Prenom);
+            surface = s;
         }
 
-        internal void Sayhello()
+        internal virtual void Display()
         {
-            Console.WriteLine("Bonjour");
+            Console.WriteLine("Je suis une maison de surface {0} m²", Surface);
         }
 
-        internal void setAge(int v)
+        public decimal Surface
         {
-            Age = v;
+            get { return surface; }
+            set
+            {
+                surface = value;
+                Console.WriteLine("Je suis une maison de surface {0} m²", Surface);
+            }
         }
     }
 
-
-    public class Student : Personne
+    public class Door
     {
-        public void SetAge()
+        public string name;
+        public Door(string n, string c)
         {
-            Console.WriteLine("mon age d'étudiant est de  {0} ans", Age);
+            name = n;
+            color = c;
         }
-        public void GotoSchool()
+
+        protected string color;
+
+        public string Color
         {
-            Console.WriteLine("{0} va à l'école", Prenom);
+            get { return color; }
+            set
+            {
+                color = value;
+                Console.WriteLine("la porte est de couleur {0}", color);
+            }
         }
 
     }
 
 
-    public class Teacher : Personne
+    public class Appart : House
     {
-        private string Matière;
-
-        internal void GetSubject(string mat)
+        public Appart() : base(50)
         {
-            Matière = mat;
-            Console.WriteLine("votre matière étudiée est : {0}", Matière);
         }
 
-        internal void ExplainSubject()
+        internal override void Display()
         {
-            Console.WriteLine("Explications begins");
+            Console.WriteLine("Je suis un appartement de surface {0} m²", Surface);
         }
 
     }
-
-
-
-
-
-
 
 
 }
